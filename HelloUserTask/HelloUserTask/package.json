@@ -1,0 +1,23 @@
+{
+    "name": "HelloUserTask",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "cordova-plugin-inappbrowser": "1.5.0",
+        "cordova-plugin-ms-azure-mobile-apps": "^2.0.0",
+        "cordova-plugin-whitelist": "1",
+        "cordova-sqlite-storage": "1.4.8",
+        "cordova-plugin-geolocation": "2.4.3",
+        "cordova-plugin-compat": "1.1.0"
+    },
+    "cordova": {
+        "plugins": {
+            "cordova-plugin-whitelist": {},
+            "cordova-plugin-ms-azure-mobile-apps": {},
+            "cordova-plugin-geolocation": {},
+            "cordova-plugin-inappbrowser": {},
+            "cordova-sqlite-storage": {},
+            "cordova-plugin-compat": {}
+        }
+    }
+}
