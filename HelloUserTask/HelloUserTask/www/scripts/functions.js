@@ -9,6 +9,7 @@
     // hide prompt and box & show everything else
     $('#username').hide();
     $('#user-name-input').hide();
+    $('#prompt').hide();
     $('#refresh').show();
     $('#the-greeting').show();
     $('#quote').show();
@@ -114,6 +115,7 @@ function onGetLocationError(error) {
 }
 
 function refreshPage() {
+    $('#prompt').show();
     $('#username').show();
     $('#user-name-input').show();
     $('#weather-data').hide();
@@ -136,12 +138,15 @@ function addQuoteForm() {
     $('#quote').hide();
     $('#refresh').hide();
     $('#weather-title').hide();
-    $('#addquote-button-div').hide();
+    $('#buttons').hide();
     $('#back-button').show();
+    $('#allquote-form-div').hide();
+    $('#dltquote-form-div').hide();
 
 }
 
 function addQuoteButton() {
+
     console.log("anybody here?");
     var term = $('#quote-input').val();
     console.log(term);
@@ -150,7 +155,8 @@ function addQuoteButton() {
 
     // Send the data using post
     var posting = $.post(url, { quotetext: term });
-    $('#sucess-msg').show();
+    console.log(posting);
+    $('#success-msg').show();
     $('#success-msg').text("Quote successfully added");
     
 
@@ -181,11 +187,26 @@ function dltQuoteForm() {
     $('#weather-title').hide();
     $('#buttons').hide();
     $('#back-button').show();
+    $('#addquote-form-div').hide();
+    $('#allquote-form-div').show();
 
 }
 
 function allQuotes() {
-    $('#dltquote-form-div').show();
+    $('#allquote-form-div').show();
+    console.log("anybody here?");
+    $.getJSON('http://itscstaging.cech.uc.edu:8000/all', function (data) {
+        console.log(data);
+        $('#status').text(data.text);
+        for (var key in data) {
+            //var item = data[key];
+          //  for (var key2 in item) {
+                console.log("Hi " + data[key].text);
+                //alert(item[key2].text); // append item[key2].text
+                $('#allquotes').append('<li>' + data[key].id + ": " + data[key].text + '</li>');
+            }
+       // }
+    })
 
     $('#username').hide();
     $('#buttons').hide();
@@ -197,7 +218,30 @@ function allQuotes() {
     $('#weather-title').hide();
     $('#buttons').hide();
     $('#back-button').show();
+    $('#addquote-form-div').hide();
+    $('#dltquote-form-div').hide();
 
+}
+
+function login() {
+    var uname = $('#username').val();
+    var pw = $('#password').val();
+    var url = "http://itscstaging.cech.uc.edu:8000/login";
+
+    // Send the data using post
+    var valid;
+    $.post(url, { username: uname, password: pw }, function (data) {
+        if (data.status === 200) 
+            home();
+        else 
+            $('#loginerror').text("invalid username or password");
+    }, 'json');
+  
+  //  console.log(posting);
+    //console.log(posting["status"]);
+    /*if (posting.status === "200") console.log("yay");
+    else if (posting.status === 404) console.log("invalid username or pw");
+*/
 }
 
 function back() {
@@ -210,8 +254,45 @@ function back() {
     $('#weather-data').show();
     $('#buttons').show();
     $('#addquote-form-div').hide();
+    $('#allquote-form-div').hide();
     $('#dltquote-form-div').hide();
     $('#back-button').hide();
-
+    $("#allquotes").empty();
+    $("#success-msg").empty();
+    $("#success-msg2").empty();
 }
 
+function home() {
+    $('#login').hide();
+    refreshPage();
+}
+
+function signupForm() {
+    $('#signup-form').show();
+    $('#login').hide();
+}
+
+function signupButton() {
+    console.log("are we here? - signal");
+    var fname = $('#firstname').val();
+    var lname = $('#lastname').val();
+    var email = $('#email').val();
+    var uname = $('#newusername').val();
+    var pw = $('#newpassword').val();
+    
+    var url = "http://itscstaging.cech.uc.edu:8000/signup";
+
+    // Send the data using post
+    var posting = $.post(url, { firstname: fname, lastname: lname, email: email, username: uname, password: pw}, 
+    function (data) {
+        console.log(data.username);
+        console.log("fe haga?");
+        if (data.username) {
+            home();
+           
+        }
+        else
+            $('#signup-msg').text("username is already taken");
+    }, 'json');
+
+}
