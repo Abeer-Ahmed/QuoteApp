@@ -12,7 +12,7 @@
 
         // Handle the click event
         $('#greet-me-btn').click(greetMe);
-        $('#greet-me-btn').click(getWeatherWithGeoLocation);
+       // $('#greet-me-btn').click(getWeatherWithGeoLocation);
         $('#refresh').click(refreshPage);
         $('#addquote-button').click(addQuoteForm); // show the add quote form
         $('#dltquote-button').click(dltQuoteForm); // show dlt form

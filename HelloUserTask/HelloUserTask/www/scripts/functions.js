@@ -1,4 +1,6 @@
-﻿function greetMe() {
+﻿var loggedinUser;
+
+function greetMe() {
 
     // get a random quote http://itscstaging.cech.uc.edu:8000/random
     $.getJSON('http://itscstaging.cech.uc.edu:8000/random', function (data) {
@@ -14,10 +16,13 @@
     $('#the-greeting').show();
     $('#quote').show();
     $('#weather-title').show();
+    $('#weather-data').show();
     $('#addquote-button-div').show();
     $('#buttons').show();
     // greet user based on time
-    var userName = $('#user-name-input').val();
+    //var userName = $('#user-name-input').val();
+    var userName = loggedinUser.firstName;
+    console.log(userName);
     var date = new Date();
     var hours = date.getHours();
 
@@ -115,16 +120,17 @@ function onGetLocationError(error) {
 }
 
 function refreshPage() {
-    $('#prompt').show();
-    $('#username').show();
-    $('#user-name-input').show();
-    $('#weather-data').hide();
-    $('#the-greeting').hide();
-    $('#buttons').hide();
-    $('#quote').hide();
-    $('#refresh').hide();
-    $('#weather-title').hide();
-    $('#addquote-button-div').hide();
+   // $('#prompt').show();
+ //   $('#username').show();
+    // $('#user-name-input').show();
+    greetMe();
+   // $('#weather-data').show();
+    $('#the-greeting').show();
+    $('#buttons').show();
+    $('#quote').show();
+    $('#refresh').show();
+    $('#weather-title').show();
+   // $('#addquote-button-div').hide();
 }
 
 function addQuoteForm() {
@@ -231,9 +237,13 @@ function login() {
     // Send the data using post
     var valid;
     $.post(url, { username: uname, password: pw }, function (data) {
-        if (data.status === 200) 
+        console.log(data[1]);
+        if (data[0].status === 200) {
+            loggedinUser = data[1];
+            console.log(loggedinUser.firstName + "has logged in");
             home();
-        else 
+        }
+        else
             $('#loginerror').text("invalid username or password");
     }, 'json');
   
@@ -264,6 +274,8 @@ function back() {
 
 function home() {
     $('#login').hide();
+    $('#signup-form').hide();
+    getWeatherWithGeoLocation();
     refreshPage();
 }
 
@@ -285,10 +297,13 @@ function signupButton() {
     // Send the data using post
     var posting = $.post(url, { firstname: fname, lastname: lname, email: email, username: uname, password: pw}, 
     function (data) {
-        console.log(data.username);
+        console.log(data);
+        console.log(data.userID);
         console.log("fe haga?");
-        if (data.username) {
+        if (data.userID) {
             home();
+            loggedinUser = data;
+            console.log("successfully signed up");
            
         }
         else
