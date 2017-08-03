@@ -301,10 +301,9 @@ function signupButton() {
         console.log(data.userID);
         console.log("fe haga?");
         if (data.userID) {
-            home();
             loggedinUser = data;
             console.log("successfully signed up");
-           
+            home();
         }
         else
             $('#signup-msg').text("username is already taken");
