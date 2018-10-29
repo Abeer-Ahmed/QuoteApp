@@ -127,7 +127,7 @@ body {
 	-moz-border-radius:28px;
 	-webkit-border-radius:28px;
 	border-radius:28px;
-	border:1px solid;
+	border:0px solid;
 	
 	cursor:pointer;
 	color:#ffffff;
